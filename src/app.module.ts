@@ -6,11 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { Categoria } from './modelos/categorias.entity';
+import { Producto } from './modelos/productos.entity';
+import { ProductoFoto } from './modelos/productos_fotos.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forFeature([]), //Esto permite informar los modelos con los que se va a trabajar
+    TypeOrmModule.forFeature([Categoria, Producto, ProductoFoto]), //Esto permite informar los modelos con los que se va a trabajar
     TypeOrmModule.forRoot(
       {
         type: 'mysql',
