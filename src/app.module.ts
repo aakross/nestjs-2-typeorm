@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { Categoria } from './modelos/categorias.entity';
 import { Producto } from './modelos/productos.entity';
 import { ProductoFoto } from './modelos/productos_fotos.entity';
+import { CategoriasService } from './servicios/categorias/categorias.service';
 
 @Module({
   imports: [
@@ -30,6 +31,6 @@ import { ProductoFoto } from './modelos/productos_fotos.entity';
     )
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CategoriasService],
 })
 export class AppModule { }
