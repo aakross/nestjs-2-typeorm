@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CategoriaDto } from 'src/dto/categoria.dto';
 import { Categoria } from 'src/modelos/categorias.entity';
 import { Repository } from 'typeorm';
 
@@ -17,4 +18,64 @@ export class CategoriasService {
             }
         });
     }
+    async getDato(id: number): Promise<Categoria> {
+        let datos = await this.repositorio.findOne(
+            {
+                where: {
+                    id: id
+                }
+            });
+        if (!datos) {
+            throw new HttpException(
+                {
+                    estado: HttpStatus.BAD_REQUEST,
+                    mensaje: 'El registro no existe en el sistema'
+                }, HttpStatus.BAD_REQUEST, {
+                cause: { name: "", message: "" }
+            });
+        } else {
+            return datos;
+        }
+    }
+
+    async addDatos(dto: CategoriaDto) {
+        let existe = await this.repositorio.findOne(
+            {
+                where: {
+                    nombre: dto.nombre
+                }
+            });
+        if (existe) {
+            throw new HttpException(`La categoria ${dto.nombre} ya existe en el sistema`, HttpStatus.BAD_REQUEST);
+        } else {
+            try {
+                let save = this.repositorio.create(dto);
+                return this.repositorio.save(save);
+            } catch (error) {
+                throw new HttpException(`Ocurrio un error inesperado`, HttpStatus.BAD_REQUEST);
+            }
+
+        }
+    }
+    async updateDatos(id: number, dto: CategoriaDto) {
+        let datos = await this.repositorio.findOne(
+            {
+                where: {
+                    id: id
+                }
+            });
+        if (!datos) {
+            throw new HttpException(
+                {
+                    estado: HttpStatus.BAD_REQUEST,
+                    mensaje: 'El registro no existe en el sistema'
+                }, HttpStatus.BAD_REQUEST, {
+                cause: { name: "", message: "" }
+            });
+        } else {
+            await this.repositorio.update({ id }, dto);
+        }
+        
+    }
+
 }

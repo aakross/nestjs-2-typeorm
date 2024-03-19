@@ -10,6 +10,7 @@ import { Categoria } from './modelos/categorias.entity';
 import { Producto } from './modelos/productos.entity';
 import { ProductoFoto } from './modelos/productos_fotos.entity';
 import { CategoriasService } from './servicios/categorias/categorias.service';
+import { CategoriasController } from './controladores/categorias/categorias.controller';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { CategoriasService } from './servicios/categorias/categorias.service';
       }
     )
   ],
-  controllers: [AppController],
+  controllers: [AppController, CategoriasController],
   providers: [AppService, CategoriasService],
 })
 export class AppModule { }
