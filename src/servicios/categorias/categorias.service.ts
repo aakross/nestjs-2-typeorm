@@ -2,13 +2,16 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoriaDto } from 'src/dto/categoria.dto';
 import { Categoria } from 'src/modelos/categorias.entity';
+import { Producto } from 'src/modelos/productos.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoriasService {
     constructor(
         @InjectRepository(Categoria)//InjectRepository toma el modelo mque vayamos a usar
-        private repositorio: Repository<Categoria>//Con la variable repositorio vamos a hacer las comunicaciones con la aplicacion
+        private repositorio: Repository<Categoria>,//Con la variable repositorio vamos a hacer las comunicaciones con la aplicacion
+        @InjectRepository(Producto)
+        private repositori_producto: Repository<Producto>
     ) { }
     //Se crea el metodo de consulta hacia categorias
     async getDatos(): Promise<Categoria[]> {//Se retornan como promesas del tipo de modelo que se vaya a utilizar y se ponen corchetes porque te va a entregar "n" registros
@@ -75,7 +78,21 @@ export class CategoriasService {
         } else {
             await this.repositorio.update({ id }, dto);
         }
-        
-    }
 
+    }
+    async deleteDato(id: number) {
+        let existe = await this.repositori_producto.find(
+            {
+                where:
+                {
+                    categoria_id: { id: id }
+                }
+            });
+        if (existe.length >= 1) {
+            throw new HttpException(`No es posible eliminar el registro en este momento`, HttpStatus.BAD_REQUEST);
+        } else {
+            this. repositorio.delete(id);
+            return { estado: 'Ok', mensaje: " Se elimino el registro exitosamente"}
+        }
+    }
 }

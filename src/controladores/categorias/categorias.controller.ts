@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CategoriaDto } from 'src/dto/categoria.dto';
 import { CategoriasService } from 'src/servicios/categorias/categorias.service';
 import slugify from 'slugify';
@@ -22,6 +22,10 @@ export class CategoriasController {
     @Put(':id')
     metodoPut(@Param() params, @Body() dto: CategoriaDto) {
         this.CategoriasService.updateDatos(params.id, { nombre: dto.nombre, slug: slugify(dto.nombre.toLowerCase()) });
-        return { estado: "ok", mensaje: "Se modifico el registro exitosamente"}
+        return { estado: "ok", mensaje: "Se modifico el registro exitosamente" }
+    }
+    @Delete(":id")
+    metodoDelete(@Param() params) {
+        return this.CategoriasService.deleteDato(params.id);
     }
 }
