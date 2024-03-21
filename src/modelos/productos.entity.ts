@@ -25,6 +25,6 @@ export class Producto {
 
     @BeforeInsert()
     alCrear() {
-        this.slug = slugify(this.nombre);
+        this.slug = slugify(this.nombre.toLowerCase());
     }
 }
