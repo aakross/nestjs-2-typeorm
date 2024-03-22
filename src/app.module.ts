@@ -13,6 +13,8 @@ import { CategoriasService } from './servicios/categorias/categorias.service';
 import { CategoriasController } from './controladores/categorias/categorias.controller';
 import { ProductosController } from './controladores/productos/productos.controller';
 import { ProductosService } from './servicios/productos/productos.service';
+import { ProductosFotosService } from './servicios/productos_fotos/productos_fotos.service';
+import { ProductosFotosController } from './controladores/productos_fotos/productos_fotos.controller';
 
 @Module({
   imports: [
@@ -33,7 +35,7 @@ import { ProductosService } from './servicios/productos/productos.service';
       }
     )
   ],
-  controllers: [AppController, CategoriasController, ProductosController],
-  providers: [AppService, CategoriasService, ProductosService],
+  controllers: [AppController, CategoriasController, ProductosController, ProductosFotosController],
+  providers: [AppService, CategoriasService, ProductosService, ProductosFotosService],
 })
 export class AppModule { }

@@ -24,6 +24,18 @@ export class ProductosService {
                 }
             });
     }
+    async getDatosPorCategoria(id: number): Promise<Producto[]> {
+        return await this.repositorio.find({
+            where:
+            {
+                categoria_id: { id: id }
+            },
+            order:
+            {
+                id: 'desc'
+            }
+        });
+    }
     async addDatos(dto: ProductoDto) {
         let existe = await this.repositorio.findOne({
             where: {
@@ -90,8 +102,8 @@ export class ProductosService {
         if (existe.length >= 1) {
             throw new HttpException(`No es posible eliminar el registro en este momento`, HttpStatus.BAD_REQUEST);
         } else {
-            this. repositorio.delete(id);
-            return { estado: 'Ok', mensaje: " Se elimino el registro exitosamente"}
+            this.repositorio.delete(id);
+            return { estado: 'Ok', mensaje: " Se elimino el registro exitosamente" }
         }
     }
 }

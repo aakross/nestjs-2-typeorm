@@ -14,6 +14,10 @@ export class ProductosController {
     metodoPost(@Body() dto: ProductoDto) {
         return this.productosService.addDatos(dto);
     }
+    @Get("categoria/:id")
+    metodoGePorCategoria(@Param() params): {} {
+        return this.productosService.getDatosPorCategoria(params.id);
+    }
     @Get(":id")
     metodoGetId(@Param() params): {} {
         return this.productosService.getDato(params.id);
