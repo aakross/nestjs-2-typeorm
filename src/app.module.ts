@@ -4,6 +4,9 @@ import { ConfigModule } from '@nestjs/config';
 //Typeorm
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+//Archivos estaticos
+import { ServeStaticModule } from '@nestjs/serve-static';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Categoria } from './modelos/categorias.entity';
@@ -19,6 +22,7 @@ import { ProductosFotosController } from './controladores/productos_fotos/produc
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    ServeStaticModule.forRoot({ rootPath: join(__dirname, '..', 'assets'), }),
     TypeOrmModule.forFeature([Categoria, Producto, ProductoFoto]), //Esto permite informar los modelos con los que se va a trabajar
     TypeOrmModule.forRoot(
       {
